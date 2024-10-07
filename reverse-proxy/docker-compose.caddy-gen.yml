@@ -12,13 +12,22 @@ services:
       - "443:443"
     depends_on:
       - plausible
+      - realtime-service
 
   plausible:
     labels:
       virtual.host: "analytics.newsifier.nl" # change to your domain name
       virtual.port: "8000"
       virtual.tls-email: "kamal@newsifier.com" # change to your email
-        
+
+  realtime-service:
+    image: newsifiercom/realtime-service:latest
+    restart: always
+    labels:
+      virtual.host: "realtime-service.testifier.nl"
+      virtual.port: "3000"
+      virtual.tls: "off"
+
 volumes:
-    caddy-certificates:
-        driver: local
+  caddy-certificates:
+    driver: local
