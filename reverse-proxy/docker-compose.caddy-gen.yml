@@ -24,7 +24,7 @@ services:
     image: newsifiercom/realtime-service:latest
     restart: always
     labels:
-      virtual.host: "realtime-service.testifier.nl"
+      virtual.host: "realtime-service.newsifier.nl"
       virtual.port: "3000"
       virtual.tls: "off"
 
