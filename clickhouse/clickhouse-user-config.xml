@@ -22,10 +22,7 @@
 	  <password>Q4cM16a6h2XBx41uTRT9TzVpJ7R5ZH8RB5qstuYSnrRxzCpyJyNw3</password>
 	  <networks>
 		<ip>172.19.0.0/16</ip> <!-- Allow internal Docker network -->
-		<ip>10.110.0.0/20</ip> <!-- Allow IP range for internal network -->
-		<ip>10.244.0.0/16</ip> <!-- Allow Kubernetes pod IP range -->
-		<ip>10.245.0.0/16</ip>
-                <ip>159.223.231.37</ip>
+        <ip>159.223.231.37</ip>
 		<ip>146.190.17.232</ip>
 		<ip>167.99.45.43</ip>
 		<ip>167.71.14.81</ip>

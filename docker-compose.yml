@@ -9,8 +9,6 @@ services:
         max-file: "3"
 
   plausible_db:
-    # Plausible v2.0.0 was tested against PostgreSQL versions 12, 13, and 14
-    # https://github.com/plausible/analytics/blob/v2.0.0/.github/workflows/elixir.yml#L16
     image: postgres:14-alpine
     restart: always
     logging:
@@ -38,7 +36,7 @@ services:
       - ./clickhouse/clickhouse-user-config.xml:/etc/clickhouse-server/users.d/logging.xml:ro
     ports:
       - 9000:9000
-      - 8123:8123  # Added port mapping for HTTP interface
+      - 8123:8123  # ClickHouse HTTP interface port mapping
 
     ulimits:
       nofile:
@@ -63,6 +61,25 @@ services:
     env_file:
       - plausible-conf.env
 
+  realtime-service:
+    image: newsifiercom/realtime-service:latest
+    restart: always
+    logging:
+      driver: "json-file"
+      options:
+        max-size: "10m"
+        max-file: "3"
+    environment:
+      - CLICKHOUSE_URL=${CLICKHOUSE_URL}
+      - CLICKHOUSE_DATABASE=${CLICKHOUSE_DATABASE}
+      - CLICKHOUSE_PASSWORD=${CLICKHOUSE_PASSWORD}
+      - CLICKHOUSE_USERNAME=${CLICKHOUSE_USERNAME}
+    ports:
+      - 3000:3000
+    depends_on:
+      - plausible_events_db
+      - plausible
+
 volumes:
   db-data:
     driver: local
@@ -70,4 +87,3 @@ volumes:
     driver: local
   event-logs:
     driver: local
-
