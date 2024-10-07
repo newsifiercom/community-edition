@@ -76,6 +76,8 @@ services:
       - CLICKHOUSE_USERNAME=${CLICKHOUSE_USERNAME}
     ports:
       - 3000:3000
+    env_file:
+      - plausible-conf.env
     depends_on:
       - plausible_events_db
       - plausible
