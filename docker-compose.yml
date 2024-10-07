@@ -1,4 +1,3 @@
-version: "3.3"
 services:
   mail:
     image: bytemark/smtp
@@ -34,6 +33,7 @@ services:
         max-file: "3"      
     volumes:
       - event-data:/var/lib/clickhouse
+      - event-logs:/var/log/clickhouse-server
       - ./clickhouse/clickhouse-config.xml:/etc/clickhouse-server/config.d/logging.xml:ro
       - ./clickhouse/clickhouse-user-config.xml:/etc/clickhouse-server/users.d/logging.xml:ro
     ports:
@@ -68,3 +68,6 @@ volumes:
     driver: local
   event-data:
     driver: local
+  event-logs:
+    driver: local
+
