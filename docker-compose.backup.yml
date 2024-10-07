@@ -3,22 +3,12 @@ services:
   mail:
     image: bytemark/smtp
     restart: always
-    logging:
-      driver: "json-file"
-      options:
-        max-size: "10m"
-        max-file: "3"
 
   plausible_db:
     # Plausible v2.0.0 was tested against PostgreSQL versions 12, 13, and 14
     # https://github.com/plausible/analytics/blob/v2.0.0/.github/workflows/elixir.yml#L16
     image: postgres:14-alpine
     restart: always
-    logging:
-      driver: "json-file"
-      options:
-        max-size: "10m"
-        max-file: "3"      
     volumes:
       - db-data:/var/lib/postgresql/data
     environment:
@@ -27,19 +17,10 @@ services:
   plausible_events_db:
     image: clickhouse/clickhouse-server:23.3.7.5-alpine
     restart: always
-    logging:
-      driver: "json-file"
-      options:
-        max-size: "10m"
-        max-file: "3"      
     volumes:
       - event-data:/var/lib/clickhouse
       - ./clickhouse/clickhouse-config.xml:/etc/clickhouse-server/config.d/logging.xml:ro
       - ./clickhouse/clickhouse-user-config.xml:/etc/clickhouse-server/users.d/logging.xml:ro
-    ports:
-      - 9000:9000
-      - 8123:8123  # Added port mapping for HTTP interface
-
     ulimits:
       nofile:
         soft: 262144
@@ -48,11 +29,6 @@ services:
   plausible:
     image: plausible/analytics:v2.0
     restart: always
-    logging:
-      driver: "json-file"
-      options:
-        max-size: "10m"
-        max-file: "3"      
     command: sh -c "sleep 10 && /entrypoint.sh db createdb && /entrypoint.sh db migrate && /entrypoint.sh run"
     depends_on:
       - plausible_db
