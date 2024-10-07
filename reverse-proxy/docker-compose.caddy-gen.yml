@@ -26,8 +26,7 @@ services:
     labels:
       virtual.host: "realtime-service.newsifier.nl"
       virtual.port: "3000"
-      virtual.tls: "off"
-      virtual.tls-email: "kamal@newsifier.com"
+
 
 volumes:
   caddy-certificates:
